@@ -1,0 +1,21 @@
+{
+  "name": "pnode-ws",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "cd petit-node && npm run test"
+  },
+  "private": true,
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "",
+  "workspaces": [
+    "petit-fs",
+    "fs2",
+    "petit-node",
+    "sfile"
+  ]
+}
