@@ -1,8 +1,11 @@
 import {getNodeFS} from "@hoge1e3/sfile";
-    
+import {spawn} from "child_process";
+export async function create() {
+    return new Shell(await getHome());
+}
 export class Shell {
-    constructor() {
-        this.cwd = getHome();
+    constructor(home) {
+        this.cwd = home;
         this.cds=[];
     }
     rel(path) {
@@ -35,10 +38,6 @@ export function exec(cmd, args, options={}) {
       p.on("exit", code => code ? reject(code) : resolve(stdoutData));
     });
   }   
-export async function getHome() {
-    const home = (await getNodeFS()).get(".");
-    return home;
-}
 export async function getHome() {
     const home = (await getNodeFS()).get(".");
     return home;
