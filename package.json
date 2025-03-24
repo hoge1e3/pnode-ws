@@ -18,6 +18,7 @@
     "fs2",
     "petit-node",
     "sfile",
-    "sync-idb-kvs"
+    "sync-idb-kvs",
+    "sync-idb-kvs-multi"
   ]
 }
