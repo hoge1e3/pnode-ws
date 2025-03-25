@@ -3,7 +3,8 @@
   "version": "1.2.8",
   "main": "index.js",
   "scripts": {
-    "build": "npm run build --workspaces",
+    "build": "npm run tsc --workspaces && npm run webpack --workspaces",
+    "build-dev": "npm run tsc --workspaces && npm run webpack-dev --workspaces",
     "test": "cd petit-node && npm run test"
   },
   "private": true,
