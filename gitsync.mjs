@@ -11,7 +11,7 @@ function runGitCommand(cmd, repoPath) {
 function checkRepoStatus(repoPath) {
     const status = runGitCommand("git status --porcelain", repoPath);
     if (status) {
-        console.log("未ステージまたは未コミットの変更があります。");
+        console.log(repoPath,"未ステージまたは未コミットの変更があります。");
         process.exit(1);
     }
 }
@@ -28,15 +28,16 @@ function syncRepo(repoPath) {
     const { localAhead, remoteAhead } = checkRemoteUpdates(repoPath);
 
     if (localAhead > 0 && remoteAhead > 0) {
-        console.log("ローカルにpushするものがあり、リモートにも更新があります。手動で解決してください。");
+        console.log(repoPath,"ローカルにpushするものがあり、リモートにも更新があります。手動で解決してください。");
+        process.exit(1);
     } else if (localAhead > 0) {
-        console.log("ローカルの変更をリモートにプッシュします。");
+        console.log(repoPath,"ローカルの変更をリモートにプッシュします。");
         runGitCommand("git push", repoPath);
     } else if (remoteAhead > 0) {
-        console.log("リモートの変更をローカルにプルします。");
+        console.log(repoPath,"リモートの変更をローカルにプルします。");
         runGitCommand("git pull", repoPath);
     } else {
-        console.log("リモートとの同期は必要ありません。");
+        console.log(repoPath,"リモートとの同期は必要ありません。");
     }
 }
 

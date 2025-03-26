@@ -26,12 +26,18 @@ export class Shell {
     }
 }
 export function exec(cmd, args, options={}) {
+    if (options.nostdout) {
+        return new Promise((resolve, reject) => {
+            const p = spawn(cmd, args, {shell:true,...options});
+            p.stdout.pipe(process.stdout);
+            p.stderr.pipe(process.stderr);
+            p.on("exit", code => resolve(code));
+        });
+    }
     return new Promise((resolve, reject) => {
       const p = spawn(cmd, args, {shell:true,...options});
       let stdoutData = '';
-      // Collect stdout data
       p.stdout.on('data', (data) => {
-        console.log(data);
         stdoutData += data.toString();
       });
       p.stderr.pipe(process.stderr);
