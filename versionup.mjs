@@ -2,7 +2,7 @@ import {create} from './shell.mjs';
 const sh = await create();
 const pkg = sh.rel("./package.json").obj();
 console.log(pkg.workspaces);
-const ver="1.3.1";
+const ver=pkg.version;
 for (let workspace of pkg.workspaces) {
   console.log(workspace); 
   sh.pushd(workspace);
