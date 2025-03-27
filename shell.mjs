@@ -1,5 +1,6 @@
 import {getNodeFS} from "@hoge1e3/sfile";
 import {spawn} from "child_process";
+import readline from "readline";
 export async function create() {
     return new Shell(await getHome());
 }
@@ -7,6 +8,18 @@ export class Shell {
     constructor(home) {
         this.cwd = home;
         this.cds=[];
+    }
+    input(prompt = "") {
+        return new Promise((resolve) => {
+          const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout,
+          });
+          rl.question(prompt, (answer) => {
+            rl.close();
+            resolve(answer);
+          });
+        });
     }
     rel(path) {
         return this.cwd.rel(path);

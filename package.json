@@ -1,8 +1,11 @@
 {
   "name": "pnode-ws",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "main": "index.js",
   "scripts": {
+    "publish": "node ./publish.mjs",
+    "sync": "node ./gitsync_all.mjs",
+    "verup": "node ./versionup.mjs",
     "build": "npm run tsc --workspaces && npm run webpack --workspaces",
     "build-dev": "npm run tsc --workspaces && npm run webpack-dev --workspaces",
     "test": "cd petit-node && npm run test"
