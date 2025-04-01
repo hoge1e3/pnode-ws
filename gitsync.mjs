@@ -1,11 +1,7 @@
 import { execSync } from "child_process";
 
 function runGitCommand(cmd, repoPath) {
-    try {
-        return execSync(cmd, { cwd: repoPath, encoding: "utf8" }).trim();
-    } catch (error) {
-        return null;
-    }
+    return execSync(cmd, { cwd: repoPath, encoding: "utf8" }).trim();
 }
 
 function checkRepoStatus(repoPath) {
