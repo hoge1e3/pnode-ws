@@ -6,6 +6,10 @@ const ver=pkg.version;
 for (let workspace of pkg.workspaces) {
   console.log(workspace); 
   sh.pushd(workspace);
-  await sh.exec("npm", ["version", ver]);
+  try {
+    await sh.exec("npm", ["version", ver]);
+  } catch(e) {
+    console.error(e);
+  }
   sh.popd();
 }
