@@ -13,3 +13,8 @@ for (let workspace of pkg.workspaces) {
   }
   sh.popd();
 }
+const pnode=sh.rel("petit-node");
+const files=[pnode.rel("js/index.js"),pnode.rel("dist/index.js")];
+for (let file of files) {
+  file.text(file.text().replace(/__VER__[\d\.]+__SION__/, `__VER__${ver}__SION__`));
+}
