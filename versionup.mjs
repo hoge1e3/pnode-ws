@@ -37,3 +37,4 @@ for (let workspace of pkg.workspaces) {
   //console.log(workspace, p.dependencies);
   pf.obj(p);
 }
+//await sh.exec("npm",["run","publish"]);
