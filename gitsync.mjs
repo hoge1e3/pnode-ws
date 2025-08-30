@@ -1,14 +1,35 @@
 import { execSync } from "child_process";
-
+import * as readline from "readline";
 function runGitCommand(cmd, repoPath) {
     return execSync(cmd, { cwd: repoPath, encoding: "utf8" }).trim();
 }
 
-function checkRepoStatus(repoPath) {
+async function checkRepoStatus(repoPath) {
     const status = runGitCommand("git status --porcelain", repoPath);
     if (status) {
-        console.log(repoPath,"未ステージまたは未コミットの変更があります。");
-        process.exit(1);
+        console.log("未ステージまたは未コミットの変更があります。状況:");
+        console.log(runGitCommand("git status", repoPath));
+        const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+        await new Promise((callback)=>{
+            rl.question("これらをコミットしてもよろしいですか？ (nで中止、n以外のコミットメッセージでコミット): ", (answer) => {
+                if (answer.trim().toLowerCase() === "n") {
+                    console.log("処理を中止しました。");
+                    rl.close();
+                    process.exit(1);
+                } else {
+                    const msg=answer.trim();
+                    runGitCommand(`git commit -a -m "${msg}"`, repoPath);
+                    console.log("変更をコミットしました。");
+                    rl.close();
+                    callback();
+                }
+            });
+        });
+        /*console.log(repoPath,"未ステージまたは未コミットの変更があります。");
+        process.exit(1);*/
     }
 }
 
@@ -19,21 +40,21 @@ function checkRemoteUpdates(repoPath) {
     return { localAhead: parseInt(localAhead, 10), remoteAhead: parseInt(remoteAhead, 10) };
 }
 
-function syncRepo(repoPath) {
-    checkRepoStatus(repoPath);
+async function syncRepo(repoPath) {
+    await checkRepoStatus(repoPath);
     const { localAhead, remoteAhead } = checkRemoteUpdates(repoPath);
 
     if (localAhead > 0 && remoteAhead > 0) {
-        console.log(repoPath,"ローカルにpushするものがあり、リモートにも更新があります。手動で解決してください。");
+        console.log(repoPath, "ローカルにpushするものがあり、リモートにも更新があります。手動で解決してください。");
         process.exit(1);
     } else if (localAhead > 0) {
-        console.log(repoPath,"ローカルの変更をリモートにプッシュします。");
+        console.log(repoPath, "ローカルの変更をリモートにプッシュします。");
         runGitCommand("git push", repoPath);
     } else if (remoteAhead > 0) {
-        console.log(repoPath,"リモートの変更をローカルにプルします。");
+        console.log(repoPath, "リモートの変更をローカルにプルします。");
         runGitCommand("git pull", repoPath);
     } else {
-        console.log(repoPath,"リモートとの同期は必要ありません。");
+        console.log(repoPath, "リモートとの同期は必要ありません。");
     }
 }
 
