@@ -64,4 +64,4 @@ if (!repoPath) {
     process.exit(1);
 }
 
-syncRepo(repoPath);
+syncRepo(repoPath).then(()=>process.exit(0));
