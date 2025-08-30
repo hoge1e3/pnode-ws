@@ -42,6 +42,7 @@ export function exec(cmd, args, options={}) {
     if (options.nostdout) {
         return new Promise((resolve, reject) => {
             const p = spawn(cmd, args, {shell:true,...options});
+            process.stdin.pipe(p.stdin);
             p.stdout.pipe(process.stdout);
             p.stderr.pipe(process.stderr);
             p.on("exit", code => resolve(code));
