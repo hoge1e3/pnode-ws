@@ -28,5 +28,11 @@
   ],
   "devDependencies": {
     "@hoge1e3/sfile": "^1.2.9"
+  },
+  "chromium-args": "--enable-logging=stderr",
+  "dependencies": {
+    "chokidar": "^4.0.3",
+    "express": "^5.1.0",
+    "ws": "^8.18.3"
   }
 }
