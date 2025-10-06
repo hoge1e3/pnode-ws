@@ -19,6 +19,7 @@
   "types": "src/index.d.ts",
   "description": "",
   "workspaces": [
+    "content",
     "petit-fs",
     "fs2",
     "petit-node",
