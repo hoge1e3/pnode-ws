@@ -18,10 +18,10 @@ const dryexec=async (...args)=>{
 };
 for (let workspace of workspaces) {
   console.log(workspace.dir); 
-  sh.pushd(workspace.dir);
   try {
+    sh.pushd(workspace.dir);
     if (!await shouldBeVerup(newver)) {
-      for (let name of workspace.dependencies){
+      for (let name in workspace.dependencies){
         if (verupNeeds.has(name)) {
           verupNeeds.add(workspace.name);
         }
@@ -32,16 +32,17 @@ for (let workspace of workspaces) {
       }
     }
     verupNeeds.add(workspace.name);
+    let needsCommit=false;
     if (workspace.dir==="petit-node") {
       await manipulateVer();
+      needsCommit=true;
     }
-    await fixDepVer(workspace);
-    await commit();
+    if (await fixDepVer(workspace)) needsCommit=true;
+    if (needsCommit) await commit();
     await dryexec("npm", ["version", newver],{nostdout:true});
-  } catch(e) {
-    console.error(e);
+  } finally {
+    sh.popd();
   }
-  sh.popd();
 }
 async function commit(){
   await dryexec("git",["commit", "-a", "-m", "Replace version string for "+newver],{nostdout:true});
@@ -66,13 +67,14 @@ async function fixDepVer(workspace) {
   }
   if (!hasChange) {
     console.log(process.cwd(), workspace.name, " has no deps-change.");
-    return;
+    return false;
   }
   if (dry) {
     console.log(process.cwd(), "change deps ",workspace.pkg.dependencies);
-    return ;
+    return true;
   }
   workspace.save("./package.json");
+  return true;
 }
 /*
 for (let workspace of pkg.workspaces) {
