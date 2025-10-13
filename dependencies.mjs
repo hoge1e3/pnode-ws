@@ -36,6 +36,9 @@ export function list() {
     for (let [name, p] of pkgs) {
         order(p,ord);
     }
-    //console.log(ord.map(o=>o.name));
+    pkg.workspaces=(ord.map(o=>o.name));
+    fs.writeFileSync("./package.json",JSON.stringify(pkg,null,2));
+    console.log("Fixed workspace order as: ", pkg.workspaces);
     return ord;
 }
+list();
