@@ -25,10 +25,10 @@
     "petit-node",
     "sfile",
     "sync-idb-kvs",
-    "sync-idb-kvs-multi",
-    "sfile-node"
+    "sync-idb-kvs-multi"
   ],
   "devDependencies": {
+    "@hoge1e3/sfile-node": "^1.2.9",
     "@hoge1e3/sfile": "^1.2.9",
     "@types/web": "^0.0.277"
   },
