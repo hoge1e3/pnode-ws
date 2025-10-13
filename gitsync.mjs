@@ -8,7 +8,7 @@ async function checkRepoStatus(repoPath) {
     //git log -1 --pretty=%B
     const status = runGitCommand("git status --porcelain", repoPath);
     if (status) {
-        console.log("未ステージまたは未コミットの変更があります。状況:");
+        console.log(repoPath, "未ステージまたは未コミットの変更があります。状況:");
         console.log(runGitCommand("git status", repoPath));
         const rl = readline.createInterface({
             input: process.stdin,
