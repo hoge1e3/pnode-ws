@@ -1,4 +1,4 @@
-import {getNodeFS} from "@hoge1e3/sfile";
+import FS from "@hoge1e3/sfile-node";
 import {spawn} from "child_process";
 import readline from "readline";
 export async function create() {
@@ -66,6 +66,6 @@ export function exec(cmd, args, options={}) {
     });
   }   
 export async function getHome() {
-    const home = (await getNodeFS()).get(".");
+    const home = FS.get(".");
     return home;
 }
