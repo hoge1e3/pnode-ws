@@ -1,6 +1,6 @@
 
 import * as fs from "fs";
-class Workspace {
+export class Workspace {
     constructor(dir) {
         this.dir=dir;
         this.pkg=JSON.parse(fs.readFileSync(`${dir}/package.json`));

@@ -8,7 +8,7 @@ const newver=pkg.version;
 const workspaces=loadAsArray();
 const n2ws=load();
 const verupNeeds=new Set(); // of name
-const dry=true;
+const dry=false;
 const dryexec=async (...args)=>{
   if (dry) {
     console.log(process.cwd(),...args);
@@ -32,6 +32,10 @@ for (let workspace of workspaces) {
       }
     }
     verupNeeds.add(workspace.name);
+    if (workspace.version===newver) {
+      console.log(process.cwd(), "Already version up to ",newver ,"skip.");
+      continue;
+    }
     let needsCommit=false;
     if (workspace.dir==="petit-node") {
       await manipulateVer();
@@ -45,7 +49,7 @@ for (let workspace of workspaces) {
   }
 }
 async function commit(){
-  await dryexec("git",["commit", "-a", "-m", "Replace version string for "+newver],{nostdout:true});
+  await dryexec("git",["commit", "-a", "-m", "to_version_"+newver],{nostdout:true});
 }
 async function manipulateVer(){
   if (dry) {
@@ -61,7 +65,7 @@ async function fixDepVer(workspace) {
   let hasChange=false;
   for (let dw of workspace.depsInWs(n2ws)) {
     if (verupNeeds.has(dw.name)) {
-      workspace.pkg.dependencies[dw.name]=newver;
+      workspace.pkg.dependencies[dw.name]="^"+newver;
       hasChange=true;
     }
   }
