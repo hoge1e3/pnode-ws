@@ -19,12 +19,12 @@
   "types": "src/index.d.ts",
   "description": "",
   "workspaces": [
-    "@hoge1e3/content",
+    "content",
     "sync-idb-kvs",
     "sync-idb-kvs-multi",
     "petit-fs",
-    "@hoge1e3/sfile",
-    "@hoge1e3/fs2",
+    "sfile",
+    "fs2",
     "petit-node"
   ],
   "devDependencies": {
