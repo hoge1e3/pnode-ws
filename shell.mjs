@@ -8,6 +8,7 @@ export class Shell {
     constructor(home) {
         this.cwd = home;
         this.cds=[];
+        this.auto_cwd2process=true;
     }
     input(prompt = "") {
         return new Promise((resolve) => {
@@ -27,12 +28,18 @@ export class Shell {
     pushd(path) {
         this.cds.push(this.cwd);
         this.cwd = this.cwd.rel(path);
+        if (this.auto_cwd2process) this.cwd2process();
     }
     popd() {
         this.cwd = this.cds.pop();
+        if (this.auto_cwd2process) this.cwd2process();
     }
     cd(path) {
         this.cwd = this.cwd.rel(path);
+        if (this.auto_cwd2process) this.cwd2process();
+    }
+    cwd2process() {
+        process.chdir(this.cwd.path());
     }
     exec(cmd, args, options={}) {
         return exec(cmd, args, {cwd: this.cwd.path(), ...options});
