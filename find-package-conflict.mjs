@@ -31,6 +31,9 @@ function readDeps(pkgPath) {
   for (const key of sections) {
     if (json[key]) {
       for (const [name, version] of Object.entries(json[key])) {
+        if (deps[name]) {
+          throw new Error(`Duplocate definition ${name} in ${pkgPath}`);
+        }
         deps[name] = deps[name] || new Set();
         deps[name].add(version);
       }
