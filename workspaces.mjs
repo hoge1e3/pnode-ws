@@ -11,8 +11,23 @@ export class Workspace {
     get dependencies(){
         return this.pkg.dependencies||{};
     }
+    get devDependencies(){
+        return this.pkg.devDependencies||{};
+    }
+    get mixedDependencies() {
+        return {...this.dependencies, ...this.devDependencies};
+    }
     get version(){
         return this.pkg.version;
+    }
+    setVer(name, newver) {
+        if (this.dependencies[name]) {
+            this.dependencies[name]=newver;
+        } else if (this.devDependencies[name]) {
+            this.devDependencies[name]=newver;
+        } else {
+            throw new Error(`${name} is not in ${this.name}(${this.dir})`);
+        }
     }
     save(file=`${this.dir}/package.json`){
         fs.writeFileSync(file,JSON.stringify(this.pkg,null,2));    
@@ -20,7 +35,7 @@ export class Workspace {
     depsInWs(n2ws) {
         const res=new Set();
         for (let [name,p] of n2ws) {
-            if (this.dependencies[name]) {
+            if (this.mixedDependencies[name]) {
                 res.add(p);
             }
         }

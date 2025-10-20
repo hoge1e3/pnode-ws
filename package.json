@@ -29,8 +29,8 @@
   ],
   "devDependencies": {
     "@hoge1e3/sfile-node": "^1.2.9",
-    "@hoge1e3/sfile": "^1.2.9",
-    "@types/web": "^0.0.277"
+    "@hoge1e3/sfile": "^1.5.2",
+    "@types/web": "^0.0.278"
   },
   "chromium-args": "--enable-logging=stderr",
   "dependencies": {
