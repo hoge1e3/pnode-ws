@@ -1,3 +1,5 @@
 node_modules
 .gsync
 idb
+pnode-bootkit
+gsync
