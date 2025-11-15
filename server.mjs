@@ -6,7 +6,7 @@ import fs from "fs";
 import path from "path";
 
 //---Config
-const EXCLUDES=["run/.gsync/objects", "run/.git"];
+const EXCLUDES=["run/.gsync", "run/.git"];
 const WS_PORT = 8080;
 const HTTP_PORT= 3000;
 const PUBLIC = path.resolve(".");
@@ -135,7 +135,7 @@ export function fileToDataURL(filePath, mimeType = "application/octet-stream") {
 export function dataURLToFile(dataURL, filePath) {
   const match = dataURL.match(/^data:(.+?);base64,(.+)$/);
   if (!match) {
-    throw new Error("Invalid dataURL format");
+    throw new Error("Invalid dataURL format: ".dataURL.substring(0,50));
   }
   const base64Data = match[2];
   const buffer = Buffer.from(base64Data, "base64");
