@@ -106,6 +106,7 @@ watcher
 
 function notifyChange(type, fullPath) {
   const relPath = path.relative(IDB_ROOT, fullPath).replace(/\\/g, "/");
+  if (EXCLUDES.some(e=>relPath.startsWith(e))) return;
   if (type === "delete") {
     broadcast({ type: "delete", path: relPath });
   } else {
