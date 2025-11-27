@@ -2,19 +2,19 @@ import express from "express";
 import http from "http";
 import { WebSocketServer } from "ws";
 import chokidar from "chokidar";
-import fs, { realpathSync } from "fs";
-import path from "path";
+import * as fs from "fs";
+import * as path from "path";
 
 //---Config
 const EXCLUDENAMES=[".gsync", ".git"];
-const SERVER_ROOT=fs.realpathSync(".");
+const SERVER_ROOT=path.resolve(".").replace(/\\/g,"/");
 const peers=[
   {browser: "/idb/run", server: path.join(SERVER_ROOT, "idb/run") },
   {browser: "/idb/pnode-ws", server: SERVER_ROOT},
 ];
 const WS_PORT = 8080;
 const HTTP_PORT= 3000;
-const PUBLIC = path.resolve(".");
+const PUBLIC = resolveSlash(".");
 //const IDB_ROOT = path.resolve("./idb");
 //-----
 const app = express();
@@ -29,6 +29,9 @@ server.listen(HTTP_PORT, () => {
 // 接続中のクライアント
 const clients = new Set();
 
+function resolveSlash(p){
+  return path.resolve(p).replace(/\\/g,"/");
+}
 // ファイルを読み込んで {mtime, content} に変換
 function readFileInfo(filePath) {
   const fullPath = filePath;// path.join(IDB_ROOT, filePath);
@@ -66,6 +69,7 @@ function readFileInfo(filePath) {
   ws.send(JSON.stringify({ type: "init", files: initData}));
 }*/
 
+
 function browserPathToServerPath(b){
   for(const p of peers){
     if (b.startsWith(p.browser)){
@@ -75,7 +79,7 @@ function browserPathToServerPath(b){
   console.warn("Unmatched browserPath: ", b);
 }
 function serverPathToBrowserPath(s){
-  const rs=fs.realpathSync(s);
+  const rs=resolveSlash(s);//fs.realpathSync(s); does not work in non-existeng
   for(const p of peers){  
     if (rs.startsWith(p.server)) {
       return path.join(p.browser, path.relative(p.server, s)).replace(/\\/g,"/");
