@@ -1,3 +1,4 @@
+//@ts-check
 import express from "express";
 import http from "http";
 import { WebSocketServer } from "ws";
@@ -8,10 +9,10 @@ import * as path from "path";
 //---Config
 const EXCLUDENAMES=[".gsync", ".git"];
 const SERVER_ROOT=path.resolve(".").replace(/\\/g,"/");
-const peers=[
-  {browser: "/idb/run", server: path.join(SERVER_ROOT, "idb/run") },
-  {browser: "/idb/pnode-ws", server: SERVER_ROOT},
-];
+/*const peers=[
+  //{browser: "/idb/run", server: path.join(SERVER_ROOT, "idb/run") },
+  //{browser: "/idb/pnode-ws", server: SERVER_ROOT},
+];*/
 const WS_PORT = 8080;
 const HTTP_PORT= 3000;
 const PUBLIC = resolveSlash(".");
@@ -29,10 +30,20 @@ server.listen(HTTP_PORT, () => {
 // 接続中のクライアント
 const clients = new Set();
 
+/**
+ * 
+ * @param {string} p 
+ * @returns 
+ */
 function resolveSlash(p){
   return path.resolve(p).replace(/\\/g,"/");
 }
 // ファイルを読み込んで {mtime, content} に変換
+/**
+ * 
+ * @param {string} filePath 
+ * @returns 
+ */
 function readFileInfo(filePath) {
   const fullPath = filePath;// path.join(IDB_ROOT, filePath);
   const stat = fs.statSync(fullPath);
@@ -69,7 +80,7 @@ function readFileInfo(filePath) {
   ws.send(JSON.stringify({ type: "init", files: initData}));
 }*/
 
-
+/*
 function browserPathToServerPath(b){
   for(const p of peers){
     if (b.startsWith(p.browser)){
@@ -86,8 +97,12 @@ function serverPathToBrowserPath(s){
     }
   }
   console.warn("Unmatched serverPath: ", s);
-}
-
+}*/
+/**
+ * 
+ * @param {string} p 
+ * @returns 
+ */
 function excludes(p) {
   while(true) {
     if (EXCLUDENAMES.includes(path.basename(p))) return true;
@@ -108,7 +123,7 @@ wss.on("connection", (ws) => {
     try {
       const { type, path: browserPath, info } = JSON.parse(msg.toString());
       if (excludes(browserPath)) return;
-      const serverPath = browserPathToServerPath(browserPath);
+      const serverPath = path.join(SERVER_ROOT,browserPath);
       if (!serverPath || excludes(serverPath)) return;
       if (type === "update") {
         fs.mkdirSync(path.dirname(serverPath), { recursive: true });
@@ -134,14 +149,20 @@ wss.on("connection", (ws) => {
 const watcher = chokidar.watch(SERVER_ROOT, { ignoreInitial: true, persistent: true });
 
 watcher
-  .on("add", (file) => notifyChange("file", file))
-  .on("change", (file) => notifyChange("file", file))
+  .on("add", (file) => notifyChange("update", file))
+  .on("change", (file) => notifyChange("update", file))
   .on("unlink", (file) => notifyChange("delete", file));
 
+/**
+ * 
+ * @param {"delete"|"update"} type 
+ * @param {string} fullPath 
+ * @returns 
+ */
 function notifyChange(type, fullPath) {
   const serverPath = fullPath; //path.relative(SERVER_ROOT, fullPath).replace(/\\/g, "/");
   if (!serverPath||excludes(serverPath)) return;
-  const browserPath = serverPathToBrowserPath(serverPath);
+  const browserPath = path.relative(SERVER_ROOT, serverPath);
   if (!browserPath||excludes(browserPath)) return;
   if (type === "delete") {
     broadcast({ type: "delete", path: browserPath });
@@ -154,6 +175,10 @@ function notifyChange(type, fullPath) {
     }
   }
 }
+/**
+ * 
+ * @param {object} msg 
+ */
 
 function broadcast(msg) {
   const str = JSON.stringify(msg);
@@ -163,16 +188,26 @@ function broadcast(msg) {
     }
   }
 }
-
+/**
+ * 
+ * @param {string} filePath 
+ * @param {string} mimeType 
+ * @returns {string}
+ */
 export function fileToDataURL(filePath, mimeType = "application/octet-stream") {
   const buffer = fs.readFileSync(filePath);
   const base64 = buffer.toString("base64");
   return `data:${mimeType};base64,${base64}`;
 }
+/**
+ * 
+ * @param {string} dataURL 
+ * @param {string} filePath 
+ */
 export function dataURLToFile(dataURL, filePath) {
   const match = dataURL.match(/^data:(.+?);base64,(.+)$/);
   if (!match) {
-    throw new Error("Invalid dataURL format: ".dataURL.substring(0,50));
+    throw new Error("Invalid dataURL format: "+dataURL.substring(0,50));
   }
   const base64Data = match[2];
   const buffer = Buffer.from(base64Data, "base64");

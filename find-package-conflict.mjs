@@ -57,7 +57,9 @@ function mergeDeps(allDeps, pkg) {
  */
 function main() {
   const root = process.cwd();
-  const pkgs = findPackageJsons(root).map(readDeps);
+  const pkgjsons = findPackageJsons(root);
+  console.log("list of package.json:",pkgjsons);
+  const pkgs = pkgjsons.map(readDeps);
 
   const allDeps = {};
   pkgs.forEach(pkg => mergeDeps(allDeps, pkg));
