@@ -1,6 +1,6 @@
 {
   "name": "pnode-ws",
-  "version": "1.5.7",
+  "version": "1.6.1",
   "main": "index.js",
   "scripts": {
     "publish": "node ./publish.mjs",
@@ -28,14 +28,16 @@
     "petit-node"
   ],
   "devDependencies": {
-    "@hoge1e3/sfile-node": "^1.2.9",
     "@hoge1e3/sfile": "^1.5.2",
+    "@hoge1e3/sfile-node": "^1.2.9",
     "@types/web": "^0.0.278"
   },
   "chromium-args": "--enable-logging=stderr",
   "dependencies": {
     "chokidar": "^4.0.3",
+    "constants-browserify": "^1.0.0",
     "express": "^5.1.0",
+    "querystring": "^0.2.1",
     "ws": "^8.18.3"
   }
 }
