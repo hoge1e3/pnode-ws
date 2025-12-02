@@ -1,5 +1,4 @@
 #!run
-//testdesu
 import * as e from "resolve.exports";
 import * as fs from "fs";
 import * as path from "path";
