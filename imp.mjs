@@ -2,6 +2,37 @@
 import * as e from "resolve.exports";
 import * as fs from "fs";
 import * as path from "path";
+
+ /*
+    #!run
+
+export async function main(){
+  const base="/idb/pnode-ws/node_modules/ajv-formats";
+  const codegen_1 = pNode.require(
+    "ajv/dist/compile/codegen",base);
+  console.log(codegen_1+"");
+  const e=pNode.resolveEntry("require",
+  "ajv/dist/compile/codegen",
+  base);
+  console.log("ent",e);
+  return ;
+}*/
+const pkg={
+  "exports2":{
+    "./hoge":"./fuga.js"
+  }
+};
+console.log(e.exports(pkg, "./hogee"));
+/*
+const pkg=JSON.parse(fs.readFileSync("node_modules/ajv-formats/node_modules/ajv/package.json","utf8"));
+const c=resolveCJSRaw(pkg,"dist/compile/codegen");
+console.log(pkg, c);
+const d=e.resolve(pkg,"dist/compile/codegen",{require:true});
+console.log(d);
+*/
+process.exit();
+
+
 function resolveESRaw(pkg, path="."){
   try {
     return e.exports(pkg, path)[0];
