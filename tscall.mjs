@@ -4,6 +4,11 @@ export async function main(opt={}){
   const wss=this.resolve("package.json").obj().workspaces;
   for (let ws of wss) {
     this.cd(ws);
+    if (!this.resolve("tsconfig.json").exists()){
+      this.echo("Skip", ws);
+      this.cd("..");
+      continue;
+    }
     const pkg=this.resolve("package.json").obj();
     const n=pkg.name;
     const nd=ndm.rel(n);
