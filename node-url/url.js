@@ -23,7 +23,7 @@
 
 'use strict';
 
-var punycode = require('punycode/');
+var punycode = require('punycode');
 
 function Url() {
   this.protocol = null;
@@ -781,7 +781,7 @@ function pathToFileURL(path){
     return urlParse(abs(path));
   }
   const p=polyfill.path;
-  return urlParse(abs(p.resolve(p)));
+  return urlParse(abs(p.resolve(path)));
 }
 let polyfill=null;
 exports.setPolyfill = (_p)=>{

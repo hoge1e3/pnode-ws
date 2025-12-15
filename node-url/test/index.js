@@ -25,7 +25,7 @@
 
 var test = require('mocha').test;
 var assert = require('assert');
-var nodeURL = require('url');
+var nodeURL = require('node:url');
 
 var url = require('../url');
 
@@ -2078,3 +2078,42 @@ relativeTests2.forEach(function (relativeTest) {
     assert.equal(actual, expected, 'format(' + relativeTest[1] + ') == ' + expected + '\nactual:' + actual);
   });
 });
+
+var pathToFileURLTest=[
+  // generate pairs of input output where output=url.pathToFileURL(input)
+  // as [ ["input","output"], ... ]
+  [
+    '/home/user/dir/file.txt',
+    'file:///home/user/dir/file.txt'
+  ],
+  [
+    './dir/file.txt',
+    'file:///home/user/dir/file.txt'
+  ],
+  [
+    'dir/file.txt',
+    'file:///home/user/dir/file.txt'
+  ],
+  [
+    'C:\\Users\\user\\dir\\file.txt',
+    'file:///C:/Users/user/dir/file.txt'  
+  ]
+];
+url.setPolyfill({
+  path: {
+    resolve(p){
+      if (p.match(/^\w:/)||p.startsWith("/")) {
+        return p;
+      }
+      p=p.replace(/^.\//,"");
+      return "/home/user/"+p;
+    }
+  }
+})
+pathToFileURLTest.forEach(function (testPair) {
+  test('pathToFileURL(' + testPair[0] + ')', function () {
+    var actual = url.pathToFileURL(testPair[0]).href;
+    var expected = testPair[1];
+    assert.equal(actual, expected, 'pathToFileURL(' + testPair[0] + ') == ' + expected + '\nactual:' + actual);
+  });
+})
