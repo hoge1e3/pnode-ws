@@ -19,6 +19,7 @@
   "types": "src/index.d.ts",
   "description": "",
   "workspaces": [
+    "node-url",
     "content",
     "sync-idb-kvs",
     "sync-idb-kvs-multi",
@@ -28,7 +29,7 @@
     "petit-node"
   ],
   "devDependencies": {
-    "@hoge1e3/sfile": "^1.5.2",
+    "@hoge1e3/sfile": "^1.6.2",
     "@hoge1e3/sfile-node": "^1.2.9",
     "@types/web": "^0.0.278"
   },
