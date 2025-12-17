@@ -1,4 +1,6 @@
 //@ts-check
+import "../css/style.css";
+import "../css/file-icon.css";
 import { onReady, timeout, mutablePromise } from "./util.js";
 import { init } from "./pnode.js";
 import { getMountPromise, mount } from "./fstab.js";

@@ -39,6 +39,8 @@
     "constants-browserify": "^1.0.0",
     "express": "^5.1.0",
     "querystring": "^0.2.1",
-    "ws": "^8.18.3"
+    "ws": "^8.18.3",
+    "css-loader": "^7.1.2",
+    "style-loader": "^4.0.0"
   }
 }

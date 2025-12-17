@@ -12,5 +12,9 @@
   "description": "",
   "dependencies": {
     "mutable-promise": "^1.1.15"
+  },
+  "devDependencies": {
+    "css-loader": "^7.1.2",
+    "style-loader": "^4.0.0"
   }
 }
