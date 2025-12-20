@@ -16,7 +16,12 @@ module.exports = (env,argv)=>({
     },
     output: outputs[type],
     module: {
-        rules: [],
+        rules: [
+          {
+            test: /\.css$/i,
+            use: ['style-loader', 'css-loader'],
+          },  
+        ],
         parser: {
           javascript: {
             importMeta: !env.production,

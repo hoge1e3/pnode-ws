@@ -10,11 +10,14 @@ export async function factoryReset(){
     const sp=showModal(".splash");
     await splash("Factory reset...",sp);
     const pNode=getInstance();
-    const _fs=pNode.getNodeLikeFs();
+    const _fs=pNode.getDeviceManager();
     await wakeLazies();  
     for (let fs of _fs.fstab()) {
-        if(fs.fstype()==="IndexedDB" && fs.storage) {
-            await removeAllFromIDB(fs.storage, fs.mountPoint);
+        if(fs.fstype()==="idb") {
+            /**@type {any} */
+            const __fs=fs;
+            const storage=__fs.storage;
+            if (storage) await removeAllFromIDB(storage, fs.mountPoint);
         }   
     }
     for(let k in localStorage){
@@ -57,22 +60,29 @@ export async function fullRestore(arrayBuf){
     
     const sp=showModal(".splash");
     const pNode=getInstance();
-    const JSZip=await pNode.importModule("pnode:jszip");
+    /** @type {any} */
+    const _JSZip=await pNode.importModule("pnode:jszip");
+    /** @type {typeof import("jszip")} */
+    const JSZip=_JSZip;
     const jszip = new JSZip();
     await jszip.loadAsync(arrayBuf);
-    const _fs=pNode.getNodeLikeFs();
+    const dev=pNode.getDeviceManager();
+    const fs=pNode.getNodeLikeFs();
+    /** @type {any} */
     const _path=await pNode.importModule("path");
+    /** @type {typeof import("node:path")} */
+    const path=_path;
     const fstabName="fstab.json";
     const fstabPath="/"+fstabName;
     
     const zipEntry = jszip.files[fstabName];
     if (zipEntry) {
         const fstab_str = await zipEntry.async("string");
-        if (!_fs.existsSync(fstabPath) ||
-            _fs.readFileSync(fstabPath,{encoding:"utf8"})!==fstab_str) {
+        if (!fs.existsSync(fstabPath) ||
+            fs.readFileSync(fstabPath,{encoding:"utf8"})!==fstab_str) {
             splash("Unmounting existing fs",sp);
             await unmountExceptRoot();
-            _fs.writeFileSync(fstabPath, fstab_str);
+            fs.writeFileSync(fstabPath, fstab_str);
             splash("Mounting new fs", sp);
             await mount();
             await factoryReset();
@@ -86,13 +96,13 @@ export async function fullRestore(arrayBuf){
         const zipEntry = jszip.files[key];
         const filePath="/"+key;
         console.log("Unzip", filePath);
-        await _fs.promises.mkdir(_path.dirname(filePath), {recursive:true} );
+        await fs.promises.mkdir(path.dirname(filePath), {recursive:true} );
         if (!zipEntry.dir) {
             const buf = await zipEntry.async("arraybuffer");
-            await _fs.promises.writeFile(filePath, buf);
+            await fs.promises.writeFile(filePath, new Uint8Array(buf));
         }
     }
     splash("Waiting for commit...",sp);
-    await _fs.getRootFS().commitPromise();
+    await dev.commitPromise();
     showModal();
 }
