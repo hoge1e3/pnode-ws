@@ -3,9 +3,10 @@ import { isPlainObject } from "./util.js";
 
 /** @type any */
 const g=globalThis;
+const NAME="pNodeBootLoader";
 /** @type any */
-const pNodeBootLoader=globalThis.pNodeBootLoader||{};
-globalThis.pNodeBootLoader=pNodeBootLoader;
+const pNodeBootLoader=g[NAME]||{};
+g[NAME]=pNodeBootLoader;
 export function getGlobal() {
     return pNodeBootLoader;
 }
@@ -54,5 +55,5 @@ assignDefault({
     assignDefault,
     pollute,
     env:{},
-    readyPromsise:{},
+    readyPromises:{},
 });

@@ -1,6 +1,5 @@
 //@ts-check
 /** 
- * @typedef { import("./types").SFile } SFile
  * @typedef { import("./types").Menus } Menus
  * @typedef { import("./types").Menu } Menu
  * @typedef { import("./types").ShowModal } ShowModal
@@ -17,6 +16,7 @@ import { getValue } from "./global.js";
 import { btn, showModal, splash, rmbtn as rmbtnWithoutQuick, uploadFile } from "./ui.js";
 import { fullBackup, factoryReset, fullRestore } from "./backup.js";
 import { blob2arrayBuffer } from "./util.js";
+import { SFile } from "@hoge1e3/sfile";
 
 export function rmbtn(){
     rmbtnWithoutQuick();
@@ -78,8 +78,10 @@ export function scanPrefetchModule(rp) {
     const pNode=getInstance();
     const FS=pNode.getFS();
     if (!rp.exists()) return;
-    /**@type {RootPackageJSON}*/
-    const o=rp.obj();
+    /**@type {any} */
+    const _o=rp.obj();
+    /**@type {RootPackageJSON} */
+    const o=_o;
     if(!o.menus) return;
     if (o.prefetch) {
         try {
@@ -93,7 +95,10 @@ export function scanPrefetchModule(rp) {
 }
 /** @param {SFile} rp */
 export function showMainmenus(rp) {
-    const o=rp.obj();
+    /**@type {any} */
+    const _o=rp.obj();
+    /**@type {RootPackageJSON} */
+    const o=_o;
     //console.log("rp.obj",o);
     if(!o.menus)return;
     const menus=parseMenus(o.menus);
@@ -128,6 +133,7 @@ export async function runMenu(k,v){
         const mainF=fixrun(FS.get(main));
         process.env.boot=mainF.path();
         await splash("start "+process.env.boot,sp);
+        /**@type{any} */
         const mod=await pNode.importModule(mainF);
         await splash("impored "+mainF,sp);
         if(v.call){

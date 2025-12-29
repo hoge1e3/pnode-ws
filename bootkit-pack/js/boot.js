@@ -1,6 +1,6 @@
 //@ts-check
 /** 
- * @typedef { import("./types").SFile } SFile
+ * @typedef { import("@hoge1e3/sfile").SFile } SFile
  * @typedef { import("./types").Menus } Menus
  * @typedef { import("./types").Menu } Menu
  * @typedef { import("./types").ShowModal } ShowModal
@@ -46,7 +46,7 @@ export async function unzipBlob(blob, dest) {
     let zip=FS.get("/tmp/boot.zip");
     await zip.setBlob(blob);
     dest.mkdir();
-    await FS.zip.unzip(zip,dest,{v:1});
+    await FS.zip.unzip(zip,dest,{v:true});
 }
 /**@type (run:SFile)=>SFile */
 export function fixrun(run){
@@ -83,7 +83,11 @@ export async function networkBoot(url){
     await timeout(1);
     if (c) c.hide();
     const mod=await pNode.importModule(fixrun(boot));
-    if(can(mod,"install"))mod.install();
+    if(can(mod,"install")){
+        /**@type {any} */
+        const m=mod;
+        m.install();
+    }
 }
 export function insertBootDisk() {
     const pNode=getInstance();
@@ -106,6 +110,10 @@ export function insertBootDisk() {
         rmbtn();
         showModal(false);
         const mod=await pNode.importModule(fixrun(run));
-        if(can(mod,"install")) mod.install();
+        if(can(mod,"install")){
+            /**@type {any} */
+            const m=mod;
+            m.install();
+        }
     });
 }

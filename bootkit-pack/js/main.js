@@ -11,10 +11,10 @@ import {getValue, assignDefault, assign, pollute} from "./global.js";
 import { showModal, splash } from "./ui.js";
 onReady(onload);
 pollute({prefetchScript});
-assign({
+assignDefault({
     readyPromises: {
-        vConsole: mutablePromise(),
-        zip: mutablePromise(),
+        //vConsole: mutablePromise(),
+        //zip: mutablePromise(),
         fs: getMountPromise(),
     }
 })
@@ -23,13 +23,13 @@ async function onload() {
     //await import("./console.js");
     const sp=showModal(".splash");
     await splash("Loading petit-node",sp);    
-    await installPWA();
+    //await installPWA();
     if(!localStorage["/"]){
         localStorage["/"]="{}";
     }
-    prefetch().then(()=>{
+    /*prefetch().then(()=>{
         console.log("Scripts prefetched.");
-    });
+    });*/
     const pNode=await init({
         BOOT_DISK_URL:`https://acepad.tonyu.jp/download.php?c=${Math.random()}`,
         SETUP_URL:`https://acepad.tonyu.jp/download.php?c=${Math.random()}`,
@@ -51,6 +51,7 @@ async function onload() {
     console.log("Mounted. ",performance.now()-ti,"msec taken.");
     scanPrefetchModule(rp);
 }
+`
 function initVConsole(){
     const VConsole=getValue("VConsole");
     const vConsole=new VConsole();
@@ -84,4 +85,4 @@ function prefetch(){
     "ace-builds@1.39.0/src-noconflict/ace.js",
     "ace-builds@1.39.0/src-noconflict/ext-language_tools.js"
     ));
-}
+}`;

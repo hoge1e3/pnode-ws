@@ -10,9 +10,9 @@ export async function factoryReset(){
     const sp=showModal(".splash");
     await splash("Factory reset...",sp);
     const pNode=getInstance();
-    const _fs=pNode.getDeviceManager();
+    const dev=pNode.getDeviceManager();
     await wakeLazies();  
-    for (let fs of _fs.fstab()) {
+    for (let fs of dev.df()) {
         if(fs.fstype()==="idb") {
             /**@type {any} */
             const __fs=fs;
@@ -24,7 +24,7 @@ export async function factoryReset(){
         delete localStorage[k];
     }
     localStorage["/"]="{}";
-    await _fs.commitPromise();
+    await dev.commitPromise();
     showModal();
 }
 export async function fullBackup(){

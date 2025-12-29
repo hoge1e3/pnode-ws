@@ -1,6 +1,5 @@
 //@ts-check
 /**
- * @typedef { import("./types").SFile } SFile
  * @typedef { import("./types").Menus } Menus
  * @typedef { import("./types").Menu } Menu
  * @typedef { import("./types").ShowModal } ShowModal
@@ -13,9 +12,11 @@ const g=globalThis;
 
 import {mutablePromise,timeout} from "./util.js";
 import { getInstance } from "./pnode.js";
+import { SFile } from "@hoge1e3/sfile";
+import { ESModuleCompiler } from "petit-node/js/ESModule.js";
 /**@type boolean */
 let quick;
-/**@type PNodeCompileHandler */
+/**@type Partial<ESModuleCompiler> */
 const handlers={
     async oncompilestart({entry}) {
         if(quick)return;
@@ -43,7 +44,7 @@ export function doQuick() {
  */
 export async function prefetchModule(file) {
     const pNode=getInstance();
-    const e=pNode.resolveEntry("ES",file);
+    const e=pNode.resolveEntry("import",file);
     const compiler=pNode.ESModuleCompiler.create(handlers);
     const r=await compiler.compile(e);
     return r;

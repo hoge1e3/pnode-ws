@@ -1,7 +1,4 @@
 //@ts-check
-/**
- * @typedef { import("./types").MultiSyncIDBStorage } MultiSyncIDBStorage
- */
 import { getInstance } from "./pnode.js";
 import { mutablePromise, directorify} from "./util.js";
 import { assign } from "./global.js";
@@ -16,9 +13,7 @@ export function getMountPromise() {
 assign({getMountPromise});
 export function readFstab(path="/fstab.json") {
     const pNode=getInstance();
-    const f=pNode.file(path);
-    if (f.exists()) return f.obj();
-    return defaultFSTab;
+    return pNode.getDeviceManager().readFstab(path,defaultFSTab);
 }
 export async function reload(path="/fstab.json") {
     await unmountExceptRoot();
@@ -28,8 +23,8 @@ export async function reload(path="/fstab.json") {
 export async function unmountExceptRoot(){
     const pNode=getInstance();
     const dev=pNode.getDeviceManager();
-    const fst=dev.fstab();
-    const mounted=fst.filter((f)=>f.mountPoint!=="/").map((f)=>f.mountPoint);//ここでエラー（Parameter 'f' implicitly has an 'any' type.）
+    const fst=dev.df();
+    const mounted=fst.filter((f)=>f.mountPoint!=="/").map((f)=>f.mountPoint);
     for (let m of mounted){
         dev.unmount(m);
     }
@@ -38,7 +33,7 @@ export async function wakeLazies(){
     const pNode=getInstance();
     const dev=pNode.getDeviceManager();
     const fs=pNode.getNodeLikeFs();
-    const mounted=dev.fstab();
+    const mounted=dev.df();
     for (let m of mounted) {
         await fs.promises.readdir(m.mountPoint);
     }
