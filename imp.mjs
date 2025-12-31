@@ -3,9 +3,8 @@ import * as e from "resolve.exports";
 import * as fs from "fs";
 import * as path from "path";
 
- /*
+/*
     #!run
-
 export async function main(){
   const base="/idb/pnode-ws/node_modules/ajv-formats";
   const codegen_1 = pNode.require(
