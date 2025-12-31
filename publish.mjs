@@ -5,6 +5,7 @@ const pkg = sh.rel("./package.json").obj();
 const newver=pkg.version;
 console.log(pkg.workspaces);
 // if otp is not provided, read from stdin
+await sh.exec("npm",["login"]);
 const otp = process.argv[2] || await sh.input("Enter OTP: ");
 if (!otp) throw new Error("Please specify otp from Authenticater App.");
 for (let workspace of pkg.workspaces) {
