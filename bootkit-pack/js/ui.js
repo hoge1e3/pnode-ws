@@ -72,7 +72,7 @@ export function btn(c,a/*,auto*/){
     b.addEventListener("click", act);	    
 }
 export function rmbtn(){
-  for(let b of document.querySelectorAll('button')){
+  for(let b of document.querySelectorAll('.menubtn')){
       b.parentNode?.removeChild(b);
   }
 }

@@ -8,7 +8,7 @@ import {showMenus, scanPrefetchModule}from "./menu.js";
 import { prefetchScript } from "./prefetcher.js";
 import {installPWA } from "./pwa.js";
 import {getValue, assignDefault, assign, pollute} from "./global.js";
-import { showModal, splash } from "./ui.js";
+import { rmbtn, showModal, splash } from "./ui.js";
 onReady(onload);
 pollute({prefetchScript});
 assignDefault({
