@@ -1,0 +1,30 @@
+{
+  "name": "webcartridge",
+  "version": "1.0.0",
+  "description": "Webapp uploader/provider via ServiceWorker.",
+  "keywords": [
+    "Serviceworker",
+    "webapp"
+  ],
+  "homepage": "https://github.com/hoge1e3/webcartridge#readme",
+  "bugs": {
+    "url": "https://github.com/hoge1e3/webcartridge/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoge1e3/webcartridge.git"
+  },
+  "license": "ISC",
+  "author": "hoge1e3",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "npx tsc",
+    "build-dev": "npm run tsc && npx webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/web": "^0.0.278",
+    "typescript": "^5.8.3"
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "pnode-bootkit",
+  "name": "pnode-bootloader",
   "version": "1.0.0",
   "main": "./js/main.js",
   "scripts": {

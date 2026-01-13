@@ -27,7 +27,8 @@
     "petit-fs",
     "sfile",
     "fs2",
-    "petit-node"
+    "petit-node",
+    "webcartridge"
   ],
   "devDependencies": {
     "@hoge1e3/sfile": "^1.6.6",
