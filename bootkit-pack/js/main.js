@@ -42,6 +42,7 @@ async function onload() {
     const FS=pNode.getFS();
     const rp=FS.get("/package.json");
     showModal();
+    rmbtn();
     showMenus(rp);
     console.log("Prefetching scripts");
     await timeout(1);
