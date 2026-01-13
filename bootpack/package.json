@@ -11,10 +11,14 @@
   "type": "module",
   "description": "",
   "dependencies": {
+    "@hoge1e3/sfile": "^1.6.6",
+    "@hoge1e3/rpc": "^1.6.9",
+    "petit-node": "^1.6.9",
     "mutable-promise": "^1.1.15"
   },
   "devDependencies": {
     "css-loader": "^7.1.2",
-    "style-loader": "^4.0.0"
+    "style-loader": "^4.0.0",
+    "webpack-ignore-dynamic-require": "^1.0.0"
   }
 }
