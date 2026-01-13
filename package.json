@@ -9,7 +9,7 @@
     "build": "npm run tsc --workspaces && npm run webpack --workspaces",
     "build-dev": "npm run tsc --workspaces && npm run webpack-dev --workspaces",
     "test": "cd petit-node && npm run test",
-    "bootkit": "node server.mjs"
+    "bootloader": "node server.mjs"
   },
   "private": true,
   "keywords": [],

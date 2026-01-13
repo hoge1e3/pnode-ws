@@ -12,7 +12,7 @@ const server = http.createServer(app);
 // 静的ファイル提供 (client.html など)
 app.use(express.static(PUBLIC));
 server.listen(HTTP_PORT, () => {
-  console.log(`Server running at http://localhost:${HTTP_PORT}/pnode-bootkit`);
+  console.log(`Server running at http://localhost:${HTTP_PORT}/pnode-bootloader`);
 });
 /**
  * 
