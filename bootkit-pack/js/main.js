@@ -9,8 +9,20 @@ import { prefetchScript } from "./prefetcher.js";
 import {installPWA } from "./pwa.js";
 import {getValue, assignDefault, assign, pollute} from "./global.js";
 import { rmbtn, showModal, splash } from "./ui.js";
-onReady(onload);
-pollute({prefetchScript});
+import { startWorker } from "./worker.js";
+if(typeof self!==undefined){
+    startWorker();
+}
+/**
+ * 
+ * @param {any} opt 
+ */
+export function onInitCartridge(opt){
+    if (typeof window!=="undefined") {
+        onReady(onload);
+        pollute({prefetchScript});
+    }
+}
 assignDefault({
     readyPromises: {
         //vConsole: mutablePromise(),
