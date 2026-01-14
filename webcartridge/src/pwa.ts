@@ -3,6 +3,7 @@ import MutablePromise from "mutable-promise";
 export async function installPWA(swurl: string = "./index.js"): Promise<void> {
     try {
         const registration = await navigator.serviceWorker.register(swurl, { type: 'module' });
+        await navigator.serviceWorker.ready;
         console.log('ServiceWorker registration successful with scope: ', registration.scope);
         console.log("registration", registration);
         const sw = registration.active;
@@ -15,6 +16,9 @@ export async function installPWA(swurl: string = "./index.js"): Promise<void> {
             pollute({ __CACHE_NAME__: data.CACHE_NAME });
         }, { once: true });
         sw.postMessage({ type: "CACHE_NAME" });
+        if (!navigator.serviceWorker.controller) {
+            if(confirm("Service worker installed. reload?")) location.reload();
+        }
     } catch(err) {
         console.error(err);
         console.log('ServiceWorker registration failed: ', err);

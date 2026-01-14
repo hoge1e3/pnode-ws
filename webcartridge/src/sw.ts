@@ -269,5 +269,11 @@ export function startSerivceWorker(){
 
   (self as any).addEventListener('activate', 
     (event: ExtendableEvent) => event.waitUntil(activateEvent(event)));
+  self.addEventListener("install", () => {
+    self.skipWaiting();
+  });
 
+  self.addEventListener("activate", event => {
+    event.waitUntil(self.clients.claim());
+  });
 }

@@ -47,3 +47,17 @@ export type FetchEvent={
   request: Request,
   respondWith(r:Promise<Response>):void,
 };
+export type WokerEvent=any;
+export interface Client{
+    postMessage(m:any):void;
+}
+export interface Clients {
+    claim():Promise<void>;
+    matchAll():Promise<Client[]>;
+};
+
+export interface ServiceWorkerGlobalScope {
+    addEventListener(type:string, handler:(e:WokerEvent)=>void):void;
+    clients :Clients;
+    skipWaiting():void;
+};
