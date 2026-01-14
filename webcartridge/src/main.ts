@@ -65,7 +65,10 @@ function prefetch(): Promise<any[]> {
     
     const post = (p: string | Promise<any>, f: (r: any) => any): Promise<any> => 
         to_p(p).then(f);
-    
+    /*
+    Why only these libraries? (Why white-listed?)
+    Because some library may destroy DOM on just loaded, It may be unrecoverable service worker state.
+    */
     return para(
         "jquery@1.12.1/dist/jquery.min.js",
         post("vconsole@latest/dist/vconsole.min.js", initVConsole),

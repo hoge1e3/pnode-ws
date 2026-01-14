@@ -1,7 +1,7 @@
 {
   "name": "webcartridge",
   "version": "1.0.0",
-  "description": "Webapp uploader/provider via ServiceWorker.",
+  "description": "A 'clean' Website: The era of websites providing content is over. From now on, you should be the one provide your own content via 'Web Cartrige'.",
   "keywords": [
     "Serviceworker",
     "webapp"

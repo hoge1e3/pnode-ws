@@ -1,34 +1,35 @@
-import { ExtendableEvent, ExtendableMessageEvent, FetchEvent } from "./types";
+import { ExtendableEvent, ExtendableMessageEvent, FetchEvent, ServiceWorkerGlobalScope } from "./types";
 
+declare const self:ServiceWorkerGlobalScope;
 export function startSerivceWorker(){
-
-  /* global self, caches, crypto */
   const NAME = 'webcartridge';
   const VERSION = '035';
   const CACHE_NAME = NAME + VERSION;
   const urlsToCache: string[] = [];
-  let mesrc: MessageEventSource | null;
+  const global=globalThis as any;
   let cache: Cache;
 
 
   const origLog = console.log.bind(console);
   const origError = console.error.bind(console);
   
-  function forward(type: string, args: any[]): void {
+  async function forward(type: string, args: any[]) {
     try {
-      mesrc?.postMessage({
-        type: 'console',
-        level: type,
-        args: args.map(a => {
-          try {
-            return typeof a === 'string' ? a : JSON.stringify(a);
-          } catch {
-            return String(a);
-          }
-        })
-      });
-    } catch {
-      // ignore postMessage failures
+      for (let cl of await self.clients.matchAll()) {
+        cl.postMessage({
+          type: 'console',
+          level: type,
+          args: args.map(a => {
+            try {
+              return typeof a === 'string' ? a : JSON.stringify(a);
+            } catch {
+              return String(a);
+            }
+          })
+        });
+      }
+    } catch(e) {
+      origError(e);
     }
   }
   
@@ -55,13 +56,13 @@ export function startSerivceWorker(){
     };
 
   async function installEvent(event: ExtendableEvent): Promise<void> {
-      (self as any).skipWaiting();
+      self.skipWaiting();
       cache = await caches.open(CACHE_NAME);
       console.log('Opened cache', cache, CACHE_NAME);
       return cache.addAll(urlsToCache);
   }
 
-  (self as any).getCache = getCache;
+  global.getCache = getCache;
 
   async function getCache(): Promise<Cache> {
     if (cache) return cache;
@@ -69,8 +70,8 @@ export function startSerivceWorker(){
     return cache;
   }
 
-  (self as any).CACHE_NAME = CACHE_NAME;
-  (self as any).addEventListener('install', 
+  global.CACHE_NAME = CACHE_NAME;
+  self.addEventListener('install', 
     (event: ExtendableEvent) => event.waitUntil(installEvent(event)));
 
   const messageHandlers = new Map<string, Function>();
@@ -91,9 +92,10 @@ export function startSerivceWorker(){
   addMessageHandler("EVAL", async (event: ExtendableMessageEvent) => {
     const { script } = event.data || {};
     try {
-      const r = await ((self as any).eval(script));
+      const r = await (global.eval(script));
       event.source?.postMessage(r);
     } catch(e) {
+      console.error(e);
       event.source?.postMessage({
         type: "error",
         error: e + ""
@@ -166,7 +168,6 @@ export function startSerivceWorker(){
 
   self.addEventListener("message", fh((event: MessageEvent) => {
       const { type } = event.data || {};
-      mesrc = event.source;
       if (!messageHandlers.has(type)) {
           event.source?.postMessage({ type: "error", message: `sw: message type '${type}' is not found` });
           return;
@@ -265,6 +266,7 @@ export function startSerivceWorker(){
           }
       }));
       console.log(CACHE_NAME + " activated");
+      event.waitUntil(self.clients.claim());
   }
 
   (self as any).addEventListener('activate', 
