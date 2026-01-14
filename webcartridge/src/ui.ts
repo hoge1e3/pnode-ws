@@ -61,7 +61,7 @@ export function btn(c: string | string[], a: Function): void {
 }
 
 export function rmbtn(): void {
-  for (let b of document.querySelectorAll('button')) {
+  for (let b of document.querySelectorAll('.menubtn')) {
       b.parentNode?.removeChild(b);
   }
 }
