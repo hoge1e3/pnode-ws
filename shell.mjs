@@ -22,6 +22,11 @@ export class Shell {
           });
         });
     }
+    resolve(path) {
+        if (typeof path==="object") return path;
+        if (path.startsWith("/")) return FS.get(path);
+        return this.rel(path);
+    }
     rel(path) {
         return this.cwd.rel(path);
     }
@@ -43,6 +48,11 @@ export class Shell {
     }
     exec(cmd, args, options={}) {
         return exec(cmd, args, {cwd: this.cwd.path(), ...options});
+    }
+    cp(src,dst) {
+        this.resolve(dst).setContent(
+            this.resolve(src).getContent()
+        );
     }
 }
 export function exec(cmd, args, options={}) {
