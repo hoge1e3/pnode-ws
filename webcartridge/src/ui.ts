@@ -1,4 +1,3 @@
-import type { Menus, Menu, ShowModal, RootPackageJSON } from "./types.js";
 import { qsExists, timeout } from "./util.js";
 import MutablePromise from "mutable-promise";
 let modalInited: boolean;

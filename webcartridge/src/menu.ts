@@ -1,18 +1,15 @@
-import type { Menus, Menu, ShowModal, RootPackageJSON } from "./types.js";
-import { insertBootDisk, readPackagejson, wireUI } from "./boot.js";
+import type { Menus, Menu} from "./types.js";
+import { insert, readPackagejson, wireUI } from "./cartridges.js";
 import { getValue } from "./global.js";
-import { btn, showModal, splash, rmbtn as rmbtnWithoutQuick, uploadFile } from "./ui.js";
-import { blob2arrayBuffer, can, getEnv } from "./util.js";
+import { btn, showModal, splash, rmbtn } from "./ui.js";
+import { can } from "./util.js";
 
-export function rmbtn(): void {
-    rmbtnWithoutQuick();
-}
 
 wireUI({ rmbtn, showModal, splash });
 
 export async function showMenus(): Promise<void> {
     await showMainmenus();
-    btn(["💾", "Add Cartridge"], () => insertBootDisk());
+    btn(["💾", "Add Cartridge"], () => insert());
     btn(["💻", "Console"], () => showConsole());
 }
 
