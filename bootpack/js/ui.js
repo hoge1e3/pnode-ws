@@ -70,6 +70,9 @@ export function btn(c,a/*,auto*/){
         }
     };
     b.addEventListener("click", act);	    
+    return {
+      action:act, label: c, dom:b,
+    };
 }
 export function rmbtn(){
   for(let b of document.querySelectorAll('.menubtn')){

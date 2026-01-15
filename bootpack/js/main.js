@@ -6,7 +6,6 @@ import { init } from "./pnode.js";
 import { getMountPromise, mount } from "./fstab.js";
 import {showMenus, scanPrefetchModule}from "./menu.js";
 import { prefetchScript } from "./prefetcher.js";
-import {installPWA } from "./pwa.js";
 import {getValue, assignDefault, assign, pollute} from "./global.js";
 import { rmbtn, showModal, splash } from "./ui.js";
 import { startWorker } from "./worker.js";
@@ -19,7 +18,7 @@ if(typeof self!==undefined){
  */
 export function onInitCartridge(opt){
     if (typeof window!=="undefined") {
-        onReady(onload);
+        onReady(()=>onload(opt));
         pollute({prefetchScript});
     }
 }
@@ -31,7 +30,11 @@ assignDefault({
     }
 })
 
-async function onload() {
+/**
+ * 
+ * @param {any} opt 
+ */
+async function onload(opt) {
     //await import("./console.js");
     const sp=showModal(".splash");
     await splash("Loading petit-node",sp);    
@@ -55,7 +58,7 @@ async function onload() {
     const rp=FS.get("/package.json");
     showModal();
     rmbtn();
-    showMenus(rp);
+    const menus=showMenus(rp);
     console.log("Prefetching scripts");
     await timeout(1);
     const ti=performance.now();
@@ -63,6 +66,13 @@ async function onload() {
     await mount();
     console.log("Mounted. ",performance.now()-ti,"msec taken.");
     scanPrefetchModule(rp);
+    if (opt?.autostart) {
+        for (let menu of menus) {
+            if (menu.label===opt.autostart) {
+                menu.dom.click();
+            }
+        }
+    }
 }
 `
 function initVConsole(){

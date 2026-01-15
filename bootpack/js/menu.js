@@ -23,17 +23,18 @@ export function rmbtn(){
     doQuick();
 }
 wireUI({rmbtn,showModal,splash});
-/** @type (rp:SFile)=>void */
+/** @type (rp:SFile)=>any[] */
 export function showMenus(rootPkgJson){
-    const pNode=getInstance();
+    //const pNode=getInstance();
     //const FS=pNode.getFS();
-    
+    /**@type any[] */
+    let res=[];
     
     if(rootPkgJson.exists()){
         // ensure factory reset, evan if failed by file system inconsistency. 
         // (for example, /package.json entry is in / but not in localStorage)
         try{
-            showMainmenus(rootPkgJson);
+            res=showMainmenus(rootPkgJson);
         }catch(e) {
             console.error(e);
             alert(e);
@@ -57,6 +58,7 @@ export function showMenus(rootPkgJson){
         if (confirm("Full restore complete. reload?")) location.reload();
     });
     btn(["💻","Console"],()=>showConsole());
+    return res;
     //console.log("rp",rp.exists());
 }
 function showConsole(){
@@ -100,9 +102,10 @@ export function showMainmenus(rp) {
     /**@type {RootPackageJSON} */
     const o=_o;
     //console.log("rp.obj",o);
-    if(!o.menus)return;
+    if(!o.menus)return[];
     const menus=parseMenus(o.menus);
     let hasAuto;
+    const res=[];
     for(let k in menus){
       const v=menus[k];
         if (v.auto) hasAuto=true;
@@ -111,9 +114,10 @@ export function showMainmenus(rp) {
         if(v.icontext){
           c=[v.icontext,k];
         }
-        btn(c, ()=>runMenu(k,v));//,v.auto);
+        res.push(btn(c, ()=>runMenu(k,v)));//,v.auto);
     }
     //if (hasAuto) stopBtn();
+    return res;
 }
 /**
  * @param {string} k 
