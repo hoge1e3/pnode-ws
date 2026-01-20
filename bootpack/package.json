@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "./js/main.js",
   "scripts": {
+    "build-dev": "npx webpack",
     "test": "npx http-server -o index.html"
   },
   "keywords": [],
