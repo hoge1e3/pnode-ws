@@ -36,6 +36,10 @@ assignDefault({
  */
 async function onload(opt) {
     //await import("./console.js");
+    try {
+      document.querySelector("#file-icon .title").innerHTML="Welcome to petit-node, npm loader in browser";
+    } catch(e){
+    }
     const sp=showModal(".splash");
     await splash("Loading petit-node",sp);    
     //await installPWA();
