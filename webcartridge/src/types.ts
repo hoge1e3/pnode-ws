@@ -32,6 +32,7 @@ export type Menu = {
     auto?: boolean;
     submenus?: any;
     call?: [string, ...any];
+    order?: number;
 };
 
 export type PrefetchScriptOptions = {

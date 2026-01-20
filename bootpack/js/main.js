@@ -1,7 +1,7 @@
 //@ts-check
 import "../css/style.css";
 import "../css/file-icon.css";
-import { onReady, timeout, mutablePromise } from "./util.js";
+import { onReady, timeout, mutablePromise, qsExists } from "./util.js";
 import { init } from "./pnode.js";
 import { getMountPromise, mount } from "./fstab.js";
 import {showMenus, scanPrefetchModule}from "./menu.js";
@@ -37,7 +37,7 @@ assignDefault({
 async function onload(opt) {
     //await import("./console.js");
     try {
-      document.querySelector("#file-icon .title").innerHTML="Welcome to petit-node, npm loader in browser";
+      qsExists("#file-icon .title").innerHTML="Welcome to petit-node, npm loader in browser";
     } catch(e){
     }
     const sp=showModal(".splash");

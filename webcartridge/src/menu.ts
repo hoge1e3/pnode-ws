@@ -33,7 +33,11 @@ export async function showMainmenus(): Promise<void> {
     if (!o.menus) return;
     const menus = parseMenus(o.menus);
     let hasAuto: boolean | undefined;
-    for (let k in menus) {
+    for (let k of Object.keys(menus).sort((a,b)=>{
+        const orda= menus[a].order||0;
+        const ordb= menus[b].order||0;
+        return orda-ordb;
+    })) {
         const v = menus[k];
         if (v.auto) hasAuto = true;
         let c: string | string[] = k;
