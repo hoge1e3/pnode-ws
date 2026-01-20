@@ -73,6 +73,9 @@ async function onload(opt) {
             }
         }
     }
+    if (opt?.main) {
+        process.env.WEBCARTRIDGE_MAIN=opt.main+"";
+    }
 }
 `
 function initVConsole(){
