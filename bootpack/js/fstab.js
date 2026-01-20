@@ -26,7 +26,7 @@ export async function unmountExceptRoot(){
     const fst=dev.df();
     const mounted=fst.filter((f)=>f.mountPoint!=="/").map((f)=>f.mountPoint);
     for (let m of mounted){
-        dev.unmount(m);
+        await dev.unmount(m);
     }
 }
 export async function wakeLazies(){
