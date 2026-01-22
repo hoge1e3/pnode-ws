@@ -1,7 +1,7 @@
 //@ts-check
 import "../css/style.css";
 import "../css/file-icon.css";
-import { onReady, timeout, mutablePromise, qsExists } from "./util.js";
+import { onReady, timeout, qsExists } from "./util.js";
 import { init } from "./pnode.js";
 import { getMountPromise, mount } from "./fstab.js";
 import {showMenus, scanPrefetchModule}from "./menu.js";
@@ -70,15 +70,16 @@ async function onload(opt) {
     await mount();
     console.log("Mounted. ",performance.now()-ti,"msec taken.");
     scanPrefetchModule(rp);
+    if (opt?.main) {
+        process.env.WEBCARTRIDGE_MAIN=opt.main+"";
+        console.log("WEBCARTRIDGE_MAIN",process.env.WEBCARTRIDGE_MAIN);
+    }
     if (opt?.autostart) {
         for (let menu of menus) {
             if (menu.label===opt.autostart) {
                 menu.dom.click();
             }
         }
-    }
-    if (opt?.main) {
-        process.env.WEBCARTRIDGE_MAIN=opt.main+"";
     }
 }
 `

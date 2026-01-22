@@ -7,7 +7,7 @@ sh.resolve("bootpack/dist/index.js"),
 ap.rel("preinstalled/petit-node.js")
 );
 sh.cp(
-sh.resolve("webcartridge/dist/index.js"),
+sh.resolve("webcartridge/dist/webcartridge.js"),
 ap.rel("webcartridge.js")
 );
 

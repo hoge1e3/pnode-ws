@@ -24,7 +24,7 @@ if (typeof window!=="undefined") {
 async function onload(): Promise<void> {
     const sp = showModal(".splash");
     await splash("Loading petit-node", sp);    
-    await installPWA();
+    await installPWA("./webcartridge.js");
     if (!localStorage["/"] ) {
         localStorage["/"] = "{}";
     }

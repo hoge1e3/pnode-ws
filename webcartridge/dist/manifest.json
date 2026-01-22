@@ -1,6 +1,6 @@
 {
-    "short_name": "bootkit",
-    "name": "bootkit",
+    "short_name": "WebCartridge",
+    "name": "Web Cartridge",
     "display": "fullscreen",
     "start_url": "./index.html",
     "icons": [

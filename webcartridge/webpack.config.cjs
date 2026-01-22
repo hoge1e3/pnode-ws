@@ -5,7 +5,7 @@ const outputs={
   esm: {
     libraryTarget: 'module',
     path: `${__dirname}/dist`,
-    filename: "index.js",
+    filename: "webcartridge.js",
   },
 };
 module.exports = (env,argv)=>({

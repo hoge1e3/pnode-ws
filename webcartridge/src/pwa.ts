@@ -1,6 +1,6 @@
 import { assign, pollute } from "./global.js";
 import MutablePromise from "mutable-promise";
-export async function installPWA(swurl: string = "./index.js"): Promise<void> {
+export async function installPWA(swurl: string): Promise<void> {
     try {
         const registration = await navigator.serviceWorker.register(swurl, { type: 'module' });
         await navigator.serviceWorker.ready;
