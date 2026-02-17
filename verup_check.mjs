@@ -1,5 +1,11 @@
-
+import * as fs from "fs";
 export async function shouldBeVerup(newver) {
+    // return false if not have .git dir at current dir
+    if (!fs.existsSyncs(".git")) {
+        console.log(process.cwd(), "No .git directory, skip verup check");
+        return false;
+    }
+
     // run git command and check uncommit stuffs, if exists, throw with exception
     const cp = await import('child_process');
     const status = cp.execSync('git status --porcelain', { encoding: 'utf8' }).trim();

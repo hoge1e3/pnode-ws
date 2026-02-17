@@ -1,5 +1,7 @@
 import { execSync } from "child_process";
 import * as readline from "readline";
+import * as fs from "fs";
+import * as path from "path";
 function runGitCommand(cmd, repoPath) {
     return execSync(cmd, { cwd: repoPath, encoding: "utf8" }).trim();
 }
@@ -64,5 +66,8 @@ if (!repoPath) {
     console.error("使用法: node script.js <リポジトリのパス>");
     process.exit(1);
 }
-
+if (!fs.existsSync(path.join(repoPath,".git"))) {
+    console.log(repoPath, "gitリポジトリがないか、親にあります。スキップします。");
+    process.exit(0);
+}
 syncRepo(repoPath).then(()=>process.exit(0));
