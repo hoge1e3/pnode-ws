@@ -10,6 +10,7 @@
     "build-dev": "npm run tsc --workspaces && npm run webpack-dev --workspaces",
     "test": "cd petit-node && npm run test",
     "ver-conflict": "node scripts/find-package-conflict.mjs",
+    "bootpack": "cd bootpack && npx webpack",
     "gio": "node scripts/copy-to-gio.mjs",
     "bootloader": "node server.mjs"
   },
