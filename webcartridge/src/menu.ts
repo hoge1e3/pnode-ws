@@ -32,19 +32,24 @@ export async function showMainmenus(): Promise<void> {
     const o = await readPackagejson();
     if (!o.menus) return;
     const menus = parseMenus(o.menus);
-    let hasAuto: boolean | undefined;
+    let hasAuto: string | undefined;
+    let cnt=0;
     for (let k of Object.keys(menus).sort((a,b)=>{
         const orda= menus[a].order||0;
         const ordb= menus[b].order||0;
         return orda-ordb;
     })) {
         const v = menus[k];
-        if (v.auto) hasAuto = true;
+        if (v.secureAuto) hasAuto = k;
         let c: string | string[] = k;
         if (v.icontext) {
             c = [v.icontext, k];
         }
+        cnt++;
         btn(c, () => runMenu(k, v));
+    }
+    if(cnt==1&&hasAuto){
+      runMenu(hasAuto, menus[hasAuto]);
     }
 }
 
@@ -52,7 +57,7 @@ export async function runMenu(k: string, v: Menu): Promise<void> {
     try {
         const sp = showModal(".splash");
         await splash("Launching " + k, sp);
-        const { main, auto, submenus } = v;
+        const { main,  submenus } = v;
         rmbtn();
         const mod = await import(/* webpackIgnore: true */main);
         await splash("impored " + k, sp);

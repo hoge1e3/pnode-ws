@@ -29,7 +29,7 @@ export type Menus = { [key: string]: Menu };
 export type Menu = {
     icontext?: string;
     main: string;
-    auto?: boolean;
+    secureAuto?: boolean;
     submenus?: any;
     call?: [string, ...any];
     order?: number;
