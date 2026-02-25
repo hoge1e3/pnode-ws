@@ -230,6 +230,7 @@ export function startSerivceWorker(){
                   if (response.ok) cache.put(request, response.clone());
                   return response;
               } catch (e) {
+                console.log("fetch useCache Fail",request.url);
                   console.error(e);
               }
           }

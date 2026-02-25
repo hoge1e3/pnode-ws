@@ -22,6 +22,7 @@ export async function boot({
     }
 
     Error.stackTraceLimit=100;
+    console_client();
     const mod=await pNode.importModule(FS.get(main));
     const srv={};
     const rev_cli=rpc.proxy.client(self, id);
@@ -32,7 +33,6 @@ export async function boot({
         }
     }
     rpc.proxy.server("default",[],srv);
-    console_client();
 
   }catch(e) {
     self.postMessage({stack:e.stack});

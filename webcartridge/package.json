@@ -20,7 +20,9 @@
   "main": "index.js",
   "scripts": {
     "tsc": "npx tsc",
-    "build-dev": "npm run tsc && npx webpack",
+    "webpack-dev": "npx webpack --mode=development",
+    "webpack": "npx webpack --mode=production",
+    "gio": "cd .. && npm run gio",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
