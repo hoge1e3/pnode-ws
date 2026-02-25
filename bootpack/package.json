@@ -4,7 +4,7 @@
   "main": "./js/main.js",
   "scripts": {
     "build-dev": "npx webpack",
-    "test": "npx http-server -o index.html"
+    "gio": "cd .. && npm run gio"
   },
   "keywords": [],
   "author": "",
