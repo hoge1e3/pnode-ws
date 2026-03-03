@@ -10,4 +10,8 @@ sh.cp(
 sh.resolve("webcartridge/dist/webcartridge.js"),
 ap.rel("webcartridge.js")
 );
+const zipfile=ap.rel("setup.zip");
+sh.cd("idb/run");
+await sh.exec("zip",["-r", zipfile.path(), ".",  "-x", ".gsync/*"]);
+
 
