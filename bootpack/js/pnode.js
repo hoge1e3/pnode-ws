@@ -1,6 +1,6 @@
 //@ts-check
 import { assign, pollute } from "./global.js";
-import * as pNode from "petit-node";
+import pNode from "petit-node";
 /**
  * @typedef { import("./types").SFile } SFile
  * @typedef { import("./types").Menus } Menus
