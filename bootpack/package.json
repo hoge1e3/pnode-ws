@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "./js/main.js",
   "scripts": {
-    "build-dev": "npx webpack",
+    "tsc": "echo no tsc needed",
+    "webpack-dev": "npx webpack",
+    "build-dev": "npm run tsc && npm run webpack-dev",
     "gio": "cd .. && npm run gio"
   },
   "keywords": [],

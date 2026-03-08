@@ -31,6 +31,7 @@
     "sfile",
     "fs2",
     "petit-node",
+    "bootpack",
     "webcartridge"
   ],
   "devDependencies": {
