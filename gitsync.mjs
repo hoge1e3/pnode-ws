@@ -17,11 +17,19 @@ async function checkRepoStatus(repoPath) {
             output: process.stdout
         });
         await new Promise((callback)=>{
-            rl.question("これらをコミットしてもよろしいですか？ (nで中止、n以外のコミットメッセージでコミット): ", (answer) => {
+            rl.question("これらをコミットしてもよろしいですか？ (nで中止、forceでリモートで上書き、それ以外でコミット): ", (answer) => {
                 if (answer.trim().toLowerCase() === "n") {
                     console.log("処理を中止しました。");
                     rl.close();
                     process.exit(1);
+                } else if (answer.trim().toLowerCase() === "force") {
+                    runGitCommand(`git fetch `, repoPath);
+                    const branch=runGitCommand(`git branch --show-current`, repoPath);
+                    runGitCommand(`git reset --hard origin/${branch}`, repoPath);
+                    runGitCommand(`git clean -fd`, repoPath);
+                    console.log("リモートの内容で上書きしました:", branch);
+                    rl.close();
+                    callback();
                 } else {
                     const msg=answer.trim();
                     runGitCommand(`git commit -a -m "${msg}"`, repoPath);
