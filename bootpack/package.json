@@ -14,9 +14,9 @@
   "type": "module",
   "description": "",
   "dependencies": {
-    "@hoge1e3/sfile": "^1.6.6",
-    "@hoge1e3/rpc": "^1.6.9",
-    "petit-node": "^1.6.9",
+    "@hoge1e3/sfile": "^2.0.1",
+    "@hoge1e3/rpc": "^2.0.1",
+    "petit-node": "^2.0.1",
     "mutable-promise": "^1.1.15"
   },
   "devDependencies": {
