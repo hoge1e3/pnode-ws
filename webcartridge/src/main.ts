@@ -70,6 +70,7 @@ function prefetch(): Promise<any[]> {
     Because some library may destroy DOM on just loaded, It may be unrecoverable service worker state.
     */
     return para(
+        "stacktrace-js/dist/stacktrace.js",
         "jquery@1.12.1/dist/jquery.min.js",
         post("vconsole@latest/dist/vconsole.min.js", initVConsole),
         seq(

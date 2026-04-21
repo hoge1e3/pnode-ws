@@ -17,7 +17,7 @@
   "license": "ISC",
   "author": "hoge1e3",
   "type": "module",
-  "main": "index.js",
+  "main": "./js/main.js",
   "scripts": {
     "tsc": "npx tsc",
     "webpack-dev": "npx webpack --mode=development",

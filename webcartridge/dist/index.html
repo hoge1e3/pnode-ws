@@ -12,6 +12,9 @@ const alerts=(...a)=>{
 window.addEventListener('error',err,true); 
 window.addEventListener('unhandledrejection',err,true); 
 function err (event) {
+  if(typeof errorCenter!=="undefined" && typeof errorCenter.reportEvent==="function") {
+    return errorCenter.reportEvent(event);
+  }
     if (event.target.tagName === 'SCRIPT') {
         alert('Script error:'+event.target.src);
     }
