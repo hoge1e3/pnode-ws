@@ -1,6 +1,6 @@
 {
   "name": "pnode-ws",
-  "version": "2.0.1",
+  "version": "2.0.3",
   "main": "index.js",
   "scripts": {
     "publish": "node ./publish.mjs",
@@ -35,7 +35,7 @@
     "webcartridge"
   ],
   "devDependencies": {
-    "@hoge1e3/sfile": "^1.6.6",
+    "@hoge1e3/sfile": "^2.0.1",
     "@hoge1e3/sfile-node": "^1.2.9",
     "@types/web": "^0.0.278"
   },
