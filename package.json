@@ -35,6 +35,7 @@
     "webcartridge"
   ],
   "devDependencies": {
+    "@hoge1e3/is-plain-object": "^1.0.0",
     "@hoge1e3/sfile": "^2.0.1",
     "@hoge1e3/sfile-node": "^1.2.9",
     "@types/web": "^0.0.278"
